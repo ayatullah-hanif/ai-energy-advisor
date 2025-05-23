@@ -35,7 +35,7 @@ def main():
     st.write("Estimate your energy usage and get smart recommendations.")
 
     # Use your actual CSV file path here
-    csv_path = "C:/Users/pc/Desktop/Energy Project/appliance_power_ratings.csv"
+    csv_path = "appliance_power_ratings.csv"
     df = load_appliance_data(csv_path)
 
     # Inputs
