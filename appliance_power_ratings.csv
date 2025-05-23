@@ -1,0 +1,29 @@
+Category,Appliance,Power (Watts)
+Lighting,Incandescent lamp,80
+Lighting,Fluorescent lamp,10
+Lighting,Compact fluorescent,11
+Cooking,Rice cooker,946
+Cooking,Water dispenser,607
+Cooking,Food blender,323
+Cooking,Refrigerator,225
+Cooking,Freezer,286
+Cooking,Toaster,754
+Cooking,Coffee machine,983
+Cooking,Microwave oven,814
+Cooking,Boiling ring,1000
+Cooking,Electric kettle,1832
+Cooking,Hot plate,1215
+Cooking,Electric cooker/oven,1215
+Entertainment,Mobile phone charging,3
+Entertainment,TV,205
+Entertainment,PC (desktop),100
+Entertainment,Radio,60
+Entertainment,CD/DVD player,17
+Entertainment,PC (laptop),155
+Laundry,Washing machine,228
+Laundry,Iron,1254
+Laundry,Hair dryer,1069
+Laundry,Vacuum cleaner,1600
+Laundry,Water heater,1916
+Cooling,Fan,80
+Cooling,Air conditioner,1872
