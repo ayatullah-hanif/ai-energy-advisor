@@ -17,27 +17,27 @@ def get_advice(energy_kwh, cost, cheapest_source):
     tips = []
     if cheapest_source != "Solar":
         if energy_kwh > 150:
-            tips.append(" Try reducing usage hours or appliance count for high-watt devices.")
+            tips.append("📉 Try reducing usage hours or appliance count for high-watt devices.")
         if cost > 10000:
-            tips.append(" Switch to inverter-based or solar appliances for long-term savings.")
+            tips.append("🔁 Switch to inverter-based or solar appliances for long-term savings.")
         if cheapest_source == "NEPA":
-            tips.append(" NEPA is cheaper now, but use off-peak hours to avoid sudden costs.")
+            tips.append("⚡ NEPA is cheaper now, but use off-peak hours to avoid sudden costs.")
         if cheapest_source == "Generator":
-            tips.append(" Generators are expensive. Avoid running heavy appliances on them.")
+            tips.append("⛽ Generators are expensive. Avoid running heavy appliances on them.")
         if not tips:
-            tips.append(" Your energy setup is decent, but a few tweaks could reduce costs more.")
+            tips.append("✅ Your energy setup is decent, but a few tweaks could reduce costs more.")
     return tips
 
 appliance_df = load_data()
 
 # --- Appliance selection ---
-st.markdown("### Select Appliances & Input Usage")
+st.markdown("### 🔌 1. Select Appliances & Input Usage")
 st.divider()
 selected_appliances = st.multiselect("Choose appliances to analyze:", options=appliance_df["Appliance"].tolist())
 
 appliance_inputs = []
 if selected_appliances:
-    st.markdown("####  Appliance Usage Details")
+    st.markdown("#### 🔧 Appliance Usage Details")
     for appliance in selected_appliances:
         col1, col2 = st.columns(2)
         with col1:
@@ -57,11 +57,11 @@ if selected_appliances:
     usage_df["Daily_Wh"] = usage_df["Quantity"] * usage_df["Hours_per_day"] * usage_df["Power (Watts)"]
     usage_df["Monthly_kWh"] = usage_df["Daily_Wh"] * 30 / 1000
 
-    st.markdown("####  Estimated Monthly Usage")
+    st.markdown("#### 📊 Estimated Monthly Usage")
     st.dataframe(usage_df[["Appliance", "Quantity", "Hours_per_day", "Power (Watts)", "Monthly_kWh"]], use_container_width=True)
 
     # --- Cost Estimation ---
-    st.markdown("### Cost Estimation by Power Source")
+    st.markdown("### 💰 2. Cost Estimation by Power Source")
     st.divider()
     NEPA_rate = 68
     GEN_cost = 150
@@ -79,16 +79,16 @@ if selected_appliances:
     cheapest = cost_df.loc[cost_df["Estimated_Cost"].idxmin()]["Source"]
 
     if cheapest == "Solar":
-        st.success(" Solar appears to be the most cost-effective option for your usage.")
+        st.success("✅ Solar appears to be the most cost-effective option for your usage.")
     else:
-        st.warning(f" {cheapest} is currently the most cost-effective.")
+        st.warning(f"💸 {cheapest} is currently the most cost-effective.")
         tips = get_advice(total_kWh, cost_df["Estimated_Cost"].max(), cheapest)
         with st.expander("💡 Energy-Saving Advice"):
             for tip in tips:
                 st.markdown(f"- {tip}")
 
     # --- SolarPeer360 Smart Plan ---
-    st.markdown("### SolarPeer360 Smart Plan")
+    st.markdown("### 🧠 3. SolarPeer360 Smart Plan")
     st.divider()
 
     if "solarpeer_active" not in st.session_state:
@@ -98,7 +98,7 @@ if selected_appliances:
         st.session_state.solarpeer_active = True
         
     if st.session_state.solarpeer_active:
-        st.markdown("### Tenant Optimization Mode")
+        st.markdown("#### 🧍‍♂️ Tenant Optimization Mode")
 
         num_users = st.slider("How many users/tenants?", min_value=1, max_value=5, value=2)
         tenant_data = []
@@ -121,7 +121,7 @@ if selected_appliances:
         st.warning("⚠️ Avoid using generators for heaters or irons – they are expensive! Use NEPA during off-peak if needed.")
 
         # Pie chart
-        st.markdown("### Appliance Energy Distribution")
+        st.markdown("### 📈 Appliance Energy Distribution")
         colors = plt.cm.tab20.colors
         fig, ax = plt.subplots(figsize=(1, 1))
         fig.patch.set_alpha(0)
@@ -151,13 +151,13 @@ if selected_appliances:
                 
             st.dataframe(legend_df.style.apply(style_application, axis=0), use_container_width=True, height=260)
             
-        # Export section
-        st.markdown("### Export Your Report")
+            # Export section
+        st.markdown("### 📤 Export Your Report")
         export_df = usage_df[["Appliance", "Quantity", "Hours_per_day", "Power (Watts)", "Monthly_kWh"]]
         towrite = BytesIO()
         export_df.to_csv(towrite, index=False)
         towrite.seek(0)
-        st.download_button(" Download Usage Report (CSV)", towrite, file_name="energy_report.csv", mime="text/csv")
+        st.download_button("📥 Download Usage Report (CSV)", towrite, file_name="energy_report.csv", mime="text/csv")
 
 else:
     st.info("Please select at least one appliance to get started.")
